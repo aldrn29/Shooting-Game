@@ -96,15 +96,21 @@ class SpawnEnemy():
         self.num = num
         self.arr = []
         for i in range(num):
-            self.arr.append(Enemy(random.randint(0, width), 10))
+            self.arr.append(Enemy(random.randint(0, width - 15), random.randint(0, 30) - 30))
     def move(self):
         for i in range(self.num):
             self.arr[i].move()
 
 draw.rectangle((x, y, x+w, y+h), outline=udlr_outline, fill=udlr_fill)
-enemy = SpawnEnemy(5)
+enemy = SpawnEnemy(10)
+start = time.time()
 
 while True:
+    spawnTime = time.time() - start
+    if spawnTime > 10:
+        enemy = SpawnEnemy(10)
+        start = time.time()
+        
     if not button_U.value:  # up pressed 
         y -= 5
     if not button_D.value:  # down pressed
