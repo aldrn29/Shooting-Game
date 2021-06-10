@@ -61,7 +61,7 @@ image = Image.new("RGB", (width, height))
 draw = ImageDraw.Draw(image)
 
 # Clear display.
-draw.rectangle((0, 0, width, height), outline=0, fill=(255, 0, 0))
+draw.rectangle((0, 0, width, height), outline=0, fill=(0, 0, 0))
 disp.image(image)
 
 # Get drawing object to draw on image.
@@ -82,14 +82,31 @@ y = height - 30
 w = 30
 h = 10
 
+
+class DisplayImage:
+    def __init__(self):
+        displayImage = Image.open("missile.png")
+
+
 class Enemy:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        draw.ellipse((x, y, x+10, y+10), outline=udlr_outline, fill=udlr_fill)
+        #draw.rectangle((x, y, x+10, y+10), outline=udlr_outline)
+        
+        self.image = Image.open("missile.png")
+        self.image = self.image.resize((width//2, height//2), Image.BICUBIC)
+        #self.image = self.image.crop((self.x, self.y, self.x + width, self.y + height))
+        disp.image(self.image)
+        
     def move(self):
         self.y += 5
-        draw.ellipse((self.x, self.y, self.x+10, self.y+10), outline=udlr_outline, fill=udlr_fill)
+        draw.rectangle((self.x, self.y, self.x+10, self.y+10), outline=udlr_outline)
+        '''
+        self.image = self.image.crop((self.x, self.y, self.x + width, self.y + height))
+        disp.image(self.image)
+        '''
+
 
 class SpawnEnemy():
     def __init__(self, num):
@@ -105,8 +122,52 @@ draw.rectangle((x, y, x+w, y+h), outline=udlr_outline, fill=udlr_fill)
 enemy = SpawnEnemy(10)
 start = time.time()
 
+
+#temp1 = Image.open('missile.png')
+#file_out = 'missile.bmp'
+#temp1.save(file_out)
+
+
+background = Image.new("RGBA", (width, height))
+draw = ImageDraw.Draw(background)
+#print(help(draw))
+draw.rectangle((0, 0, width, height), outline=0, fill=(255, 0, 0))
+
+temp_image = Image.open('bomb-removebg-preview.png')
+#temp_image = temp_image.crop((0, 0, 0+width*0.2, height*0.2))
+temp_image2 = Image.open('bomb.png')
+
+
+image_coord = (50, 50)
+
+temp_image = temp_image.resize((40, 40))
+twidth, theight = temp_image.size[0], temp_image.size[1]
+
+for x in range(0,twidth):# process all pixels
+    for y in range(0,theight):
+        data = temp_image.getpixel((x, y))
+        if (data[0] == 0 and data[1] == 0 and data[2] == 0 ):
+            temp_image.putpixel((x, y), background.getpixel((image_coord[0]+x,image_coord[1]+y)))
+
+background.paste(temp_image, (image_coord[0], image_coord[1]))   # X, Y
+
+#temp_image  = temp_image.resize((width, height))
+#background = Image.blend(background, temp_image, 0.5)
+
+#draw.bitmap((0, 0), temp_image)
+#draw.bitmap((width//2, height//2), temp_image2)
+#temp_width, temp_height = temp_image.width, temp_image.height
+#temp_image.crop((0, 0, 0+width*0.2, height*0.2))
+
+
+#draw.image(temp_image)
+disp.image(background)
+
+
+'''
 while True:
     spawnTime = time.time() - start
+    
     if spawnTime > 10:
         enemy = SpawnEnemy(10)
         start = time.time()
@@ -124,9 +185,10 @@ while True:
     #if not button_A.value:  # A button pressed
     #if not button_B.value:  # B button pressed
     
-    #Clear display
+    # Clear display
     draw.rectangle((0, 0, width, height), outline=0, fill=(0, 0, 0))
 
+    # Update
     enemy.move()
     draw.rectangle((x, y, x+w, y+h), outline=button_outline, fill=button_fill)     
     
@@ -134,5 +196,5 @@ while True:
     disp.image(image)
 
     time.sleep(0.01)
-
+'''
 
