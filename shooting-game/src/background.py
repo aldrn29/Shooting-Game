@@ -70,10 +70,10 @@ class Background:
         self.__image = empty_image
         return self.__image
 
-    def __set_text(self, background, txt):
+    def __set_text(self, background, text):
         draw = ImageDraw.Draw(background)
         rcolor = tuple(int(x * 255) for x in hsv_to_rgb(random.random(), 1, 1))
-        draw.text((38, 150), txt, font=self.__fnt, fill=rcolor)
+        draw.text((38, 150), text, font=self.__fnt, fill=rcolor)
 
     def __call__(self):
         ObjectController.renew()
@@ -119,7 +119,7 @@ class Background:
         ###
         # Set Text
         ###
-        game_txt = GameStatus.getGameTxt()
-        self.__set_text(background_image, game_txt)
+        game_text = GameStatus.getGameText()
+        self.__set_text(background_image, game_text)
 
         return background_image

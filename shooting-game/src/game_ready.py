@@ -12,10 +12,10 @@ class GameReady:
         self.__image = Image.new("RGB", (self.__width, self.__height))
         self.__draw = ImageDraw.Draw(self.__image)
         self.__fnt = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 30)
-        self.__choice_up = True
-        self.__level = 1
         self.__background = list(BACKGROUND_INFO)
         self.__background_index = 0
+        self.__choice_up = True
+        self.__level = 1
 
     def __set_text(self, position, txt):
         self.__draw.text(position, txt, font=self.__fnt, fill=(255, 255, 255))

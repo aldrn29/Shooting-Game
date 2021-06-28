@@ -32,7 +32,7 @@ class ObjectController:
         __enemy_missile_objects = dict()
 
         __effect_ids = set()
-        __effect_objects = dict()        
+        __effect_objects = dict()   
 
     @classmethod
     def getPlayerObjects(cls):
@@ -89,6 +89,10 @@ class ObjectController:
                 id_set.add(new_id)
                 return new_id																						
 
+    @classmethod
+    def __colision(cls, object1, object2):
+        if max(0, min(object1[2], object2[2])- max(object1[0], object2[0]))*max(0, min(object1[3], object2[3])-max(object1[1], object2[1])) > 0 :
+            return True
 
     @classmethod
     def __remove_objects(cls, object1_ids, objects1, object2_ids=None, objects2=None, criterion='screen-out'):
@@ -112,13 +116,9 @@ class ObjectController:
                 flag = True
                 for object1_id in object1_ids :
                     object1 = objects1[object1_id]
-                    object1_coord = object1.image_coord
                     for object2_id in object2_ids:
                         object2 = objects2[object2_id]
-                        object2_coord = object2.image_coord
-                        iou = max(0, min(object1_coord[2], object2_coord[2])- max(object1_coord[0], object2_coord[0]))*max(0, min(object1_coord[3], object2_coord[3])-max(object1_coord[1], object2_coord[1]))
-
-                        if iou > 0 : 
+                        if cls.__colision(object1.image_coord, object2.image_coord) :
                             flag = False
                             break
                     if flag == False :
@@ -128,8 +128,9 @@ class ObjectController:
                                 object1_ids.remove(object1_id)
                                 del objects1[object1_id]
                                 if object1.team == 'enemy' and object2.team == 'player':
-                                    player_id = list(cls.__player_id)[0]
-                                    cls.__player_object[player_id]._add_kill_point()
+                                    if cls.__player_id :
+                                        player_id = list(cls.__player_id)[0] 
+                                        cls.__player_object[player_id]._add_kill_point()
 
                             object2_ids.remove(object2_id)
                             del objects2[object2_id]

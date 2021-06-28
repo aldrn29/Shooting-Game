@@ -12,7 +12,7 @@ class GameStarter:
         self.__step = 0
         self.__boss = False
         GameStatus.setGamePlay(True)
- 
+
     def __next_step(self):
         self.__step = self.__step + 1
         self.__set_enemy()
@@ -77,13 +77,13 @@ class GameStarter:
             # player control
             kill = player.kill_point
 
-            if button.left : 
+            if button.left and player.obj_coord[0] > 5 : 
                 player.move('L')
-            elif button.right :
+            elif button.right and player.obj_coord[0] < SCREEN_WIDTH-5 :
                 player.move('R')
-            elif button.up : 
+            elif button.up and player.obj_coord[1] > 5 : 
                 player.move('U')
-            elif button.down :
+            elif button.down and player.obj_coord[1] < SCREEN_HEIGHT-10 :
                 player.move('D')
         
             if button.a :
@@ -112,7 +112,7 @@ class GameStarter:
                     GameStatus.end()
                     prev_time = time.time()
             
-            if not GameStatus.getGamePlay() and time.time() - prev_time > 5:
+            if not GameStatus.getGamePlay() and time.time() - prev_time > 3:
                 GameStatus.setGameReady(True)
                 GameStatus.setGamePlay(False)
                 break

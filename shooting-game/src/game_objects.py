@@ -1,7 +1,7 @@
 from settings import *
 from src.object_controller import ObjectController
 from PIL import Image
-import random, datetime, os
+import random, time, os
 
 ###
 # Game object information
@@ -27,7 +27,7 @@ OBJECT_INFO = {
                 'stlye' : 'past',
                 'pattern' : 'basic',
                 'missile_speed' : (0, 2),
-                'attack-cycle' : datetime.timedelta(0, 2),
+                'attack-cycle' : 2,
                 'missile-name' : 'missile1',
                 'hp' : 1
     },
@@ -41,7 +41,7 @@ OBJECT_INFO = {
                 'stlye' : 'past',
                 'pattern' : 'basic',
                 'missile_speed' : (0, 2),
-                'attack-cycle' : datetime.timedelta(0, 2),
+                'attack-cycle' : 2,
                 'missile-name' : 'missile2',
                 'hp' : 1
     },
@@ -55,7 +55,7 @@ OBJECT_INFO = {
                 'stlye' : 'past',
                 'pattern' : 'basic',
                 'missile_speed' : (0, 2),
-                'attack-cycle' : datetime.timedelta(0, 2),
+                'attack-cycle' : 2,
                 'missile-name' : 'missile2',
                 'hp' : 1
     },
@@ -69,7 +69,7 @@ OBJECT_INFO = {
                 'stlye' : 'basic',
                 'pattern' : 'spray',
                 'missile_speed' : ((-2, 3),(-1, 4),(0, 4),(1, 4),(2, 3)),
-                'attack-cycle' : datetime.timedelta(0, 3),
+                'attack-cycle' : 3,
                 'missile-name' : 'missile3',
                 'hp' : 15
     },
@@ -83,7 +83,7 @@ OBJECT_INFO = {
                 'stlye' : 'basic',
                 'pattern' : 'spray',
                 'missile_speed' : ((-2, 5),(-2, 4),(-2, 3),(-2, 2),(2, 2),(2, 3),(2, 4),(2, 5)),
-                'attack-cycle' : datetime.timedelta(0, 3),
+                'attack-cycle' : 3,
                 'missile-name' : 'missile4',
                 'hp' : 15
     },
@@ -278,7 +278,7 @@ class Player(GameObject):
 class Enemy(GameObject):
     def __init__(self, obj_coord, name='enemy1', team='enemy', role='fighter-plane', speed=None):
         super().__init__(obj_coord, name, team, speed)
-        self.__prev_attack_time = datetime.datetime.now()
+        self.__prev_attack_time = time.time()
         self.__attack_cycle = OBJECT_INFO[self.name]['attack-cycle']
         self.__hp = OBJECT_INFO[self.name]['hp']
         self.__stlye = OBJECT_INFO[self.name]['stlye']
@@ -298,23 +298,22 @@ class Enemy(GameObject):
 
         if self.__stlye == 'past': pass
         elif self.__stlye == 'basic':
-            
-            if self.obj_coord[1] <= 0 or self.obj_coord[1] >= SCREEN_HEIGHT//2 : #Height over
+            if self.obj_coord[1] <= 0 or self.obj_coord[1] >= SCREEN_HEIGHT//2 : 
                 self._reverse_speed('height')
-            if self.obj_coord[0] <= 1 or self.obj_coord[0] >= SCREEN_WIDTH-1 : #Width over
+            if self.obj_coord[0] <= 1 or self.obj_coord[0] >= SCREEN_WIDTH-1 :
                 self._reverse_speed('width')
             self._set_obj_coord((self.obj_coord[0]+self.speed[0], self.obj_coord[1]+self.speed[1]))
 
     def shoot(self):
-        if datetime.datetime.now()-self.__prev_attack_time >= self.__attack_cycle :
+        if time.time()-self.__prev_attack_time >= self.__attack_cycle :
             if self.__pattern == 'spray': 
                 missile_speed = OBJECT_INFO[self.name]['missile_speed']
                 for s in missile_speed:
                     Missile((self.obj_coord[0], self.obj_coord[1] + self.height//2 + 5), OBJECT_INFO[self.name]['missile-name'], speed=s)
-                self.__prev_attack_time = datetime.datetime.now()
+                self.__prev_attack_time = time.time()
             else :
                 Missile((self.obj_coord[0], self.obj_coord[1] + self.height//2 + 5), OBJECT_INFO[self.name]['missile-name'])
-                self.__prev_attack_time = datetime.datetime.now()
+                self.__prev_attack_time = time.time()
 
 class Missile(GameObject):
     def __init__(self, obj_coord, name='missile1', team='enemy', role='missile', speed=None):

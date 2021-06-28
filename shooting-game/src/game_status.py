@@ -3,7 +3,7 @@ import time
 class GameStatus:
     __game_ready = True
     __game_play = False
-    __game_txt = ''
+    __game_text = ''
 
     __player_win = False
 
@@ -24,8 +24,8 @@ class GameStatus:
         cls.__game_play = play
 
     @classmethod
-    def getGameTxt(cls):
-        return cls.__game_txt
+    def getGameText(cls):
+        return cls.__game_text
 
     @classmethod
     def setPlayerWin(cls, win):
@@ -34,14 +34,14 @@ class GameStatus:
     @classmethod
     def start(cls):
         cls.__game_play = True
-        cls.__game_txt = ''
+        cls.__game_text = ''
 
     @classmethod
     def end(cls):
         cls.__game_play = False
         
         if cls.__player_win : 
-            cls.__game_txt = ' You Win!'
-        else : cls.__game_txt = 'GameOver!'
+            cls.__game_text = ' You Win!'
+        else : cls.__game_text = 'GameOver!'
 
 
