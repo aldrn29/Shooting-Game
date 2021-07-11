@@ -42,10 +42,17 @@ $ sudo python3 main.py
 ```
 
 ### Game Objects
-||||
+- Enemy  
+           
+|index|enemy image|speed|missile image|attack cycle|pattern|    
+|-----|-----------|-----|-------------|------------|-------|  
+|1|<img src="https://github.com/aldrn29/Shooting-Game/blob/main/shooting-game/images/enemy1.png?raw=true" width="35%">||<img src="https://github.com/aldrn29/Shooting-Game/blob/main/shooting-game/images/missile1.png?raw=true" width="6%">||랜덤하게 등장<br>수직 이동<br>수직 공격<br>|
+|2|<img src="https://github.com/aldrn29/Shooting-Game/blob/main/shooting-game/images/enemy3.png?raw=true" width="35%">||<img src="https://github.com/aldrn29/Shooting-Game/blob/main/shooting-game/images/missile2.png?raw=true" width="6%">||상단 모서리에서 등장<br>사선 이동<br>수직 공격|
+|3|<img src="https://github.com/aldrn29/Shooting-Game/blob/main/shooting-game/images/enemy4.png?raw=true" width="35%">||<img src="https://github.com/aldrn29/Shooting-Game/blob/main/shooting-game/images/missile3.png?raw=true" width="6%">||상단 중앙에서 등장<br>범위 내 이동<br>반원형태 미사일 공격|
+|4|<img src="https://github.com/aldrn29/Shooting-Game/blob/main/shooting-game/images/boss.png?raw=true" width="35%">||<img src="https://github.com/aldrn29/Shooting-Game/blob/main/shooting-game/images/missile5.png?raw=true" width="6%">||상단 중앙에서 등장<br>범위 내 이동<br>11자 미사일 공격<br>|
 
 
-<img src="https://github.com/aldrn29/Shooting-Game/blob/main/shooting-game/images/enemy1.png?raw=true" width="8%">
+
 
 
 ### Screenshot
